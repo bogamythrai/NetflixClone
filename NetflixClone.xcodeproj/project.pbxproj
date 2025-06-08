@@ -6,13 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		161BF8632DF417E6002D87BE /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 161BF8622DF417E6002D87BE /* SDWebImageSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		16D8C0A52DE73BA0008B3EB2 /* NetflixClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetflixClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		161BF85F2DF41687002D87BE /* Exceptions for "NetflixClone" folder in "NetflixClone" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Views/ReusableView/Shimmer.swift,
+			);
+			target = 16D8C0A42DE73BA0008B3EB2 /* NetflixClone */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		161BF8602DF41687002D87BE /* Exceptions for "NetflixClone" folder in "Copy Bundle Resources" phase from "NetflixClone" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 16D8C0A32DE73BA0008B3EB2 /* Resources */;
+			membershipExceptions = (
+				Views/ReusableView/Shimmer.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		16D8C0A72DE73BA0008B3EB2 /* NetflixClone */ = {
+		16D8C1AF2DE89653008B3EB2 /* NetflixClone */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				161BF85F2DF41687002D87BE /* Exceptions for "NetflixClone" folder in "NetflixClone" target */,
+				161BF8602DF41687002D87BE /* Exceptions for "NetflixClone" folder in "Copy Bundle Resources" phase from "NetflixClone" target */,
+			);
 			path = NetflixClone;
 			sourceTree = "<group>";
 		};
@@ -23,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				161BF8632DF417E6002D87BE /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +61,7 @@
 		16D8C09C2DE73BA0008B3EB2 = {
 			isa = PBXGroup;
 			children = (
-				16D8C0A72DE73BA0008B3EB2 /* NetflixClone */,
+				16D8C1AF2DE89653008B3EB2 /* NetflixClone */,
 				16D8C0A62DE73BA0008B3EB2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,10 +90,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				16D8C0A72DE73BA0008B3EB2 /* NetflixClone */,
+				16D8C1AF2DE89653008B3EB2 /* NetflixClone */,
 			);
 			name = NetflixClone;
 			packageProductDependencies = (
+				161BF8622DF417E6002D87BE /* SDWebImageSwiftUI */,
 			);
 			productName = NetflixClone;
 			productReference = 16D8C0A52DE73BA0008B3EB2 /* NetflixClone.app */;
@@ -94,6 +124,9 @@
 			);
 			mainGroup = 16D8C09C2DE73BA0008B3EB2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				161BF8612DF417E6002D87BE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 16D8C0A62DE73BA0008B3EB2 /* Products */;
 			projectDirPath = "";
@@ -178,6 +211,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -236,6 +270,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -324,6 +359,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		161BF8612DF417E6002D87BE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		161BF8622DF417E6002D87BE /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 161BF8612DF417E6002D87BE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 16D8C09D2DE73BA0008B3EB2 /* Project object */;
 }
