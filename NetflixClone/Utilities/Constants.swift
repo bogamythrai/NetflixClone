@@ -8,8 +8,8 @@
 struct Constant {
     static let Api_Key                    = "da30c439534ec12d2d71ce5f96545866"
     static let baseURl                    = "https://api.themoviedb.org/3/"
-    static let posterURL                   = "https://image.tmdb.org/t/p/w200/"
-    static let backdropURL                   = "https://image.tmdb.org/t/p/w500/"
+    static let posterURL                  = "https://image.tmdb.org/t/p/w200/"
+    static let backdropURL                = "https://image.tmdb.org/t/p/w500/"
     static let popularUrl                 = baseURl+"/movie/popular?api_key="+Api_Key
     static let trandingMovie              = baseURl+"trending/movie/day?api_key="+Api_Key
     static let trendingTv                 = baseURl+"/trending/tv/day?api_key="+Api_Key

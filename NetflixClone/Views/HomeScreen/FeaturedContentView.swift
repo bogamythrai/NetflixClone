@@ -30,9 +30,6 @@ struct FeaturedContentView: View {
                             LinearGradient(colors: [.black.opacity(0.1),.clear,.black.opacity(0.1),.black.opacity(0.8)], startPoint: .top, endPoint: .bottom)
                             RoundedRectangle(cornerRadius: 15)
                                 .stroke(.white, lineWidth: 1.0)
-                            actionsView()
-                                .padding(.horizontal,20)
-                                .padding(.bottom)
                         }
                     }
                 }

@@ -46,7 +46,6 @@ struct NetflixHomeView: View {
             VStack {
                 if let featuredContent = viewModel.featuredContent {
                     FeaturedContentView(featuredContent: featuredContent)
-//                        .frame(width: size.width, height: 450)
                 }
             }
         }

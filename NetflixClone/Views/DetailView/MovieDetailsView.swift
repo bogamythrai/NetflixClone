@@ -11,6 +11,14 @@ struct MovieDetailsView<ViewModel: MovieDetailsViewModelProtocol>: View {
     @StateObject private var viewModel: ViewModel
     let mediaItem: MediaItem
 
+    // Image properties
+    @State private var scrollOffset: CGFloat = 0
+
+    // Constants for image sizing
+    private let defaultImageHeight: CGFloat = 400
+    private let minImageHeight: CGFloat = 300
+    private let maxStretchFactor: CGFloat = 1.3
+
     init(viewModel: ViewModel, mediaItem: MediaItem) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.mediaItem = mediaItem
@@ -20,57 +28,109 @@ struct MovieDetailsView<ViewModel: MovieDetailsViewModelProtocol>: View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    if viewModel.isLoading {
-                        // Add progressView with white
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .foregroundStyle(.white)
-                            .padding()
-                            .alignmentGuide(.top) { _ in
-                                return 0
-                            }
-                    } else {
-                        if let errorMessage = viewModel.errorMessage {
-                            ErrorMessageView(message: errorMessage)
-                        }
+                VStack(alignment: .leading, spacing: 0) {
+                    GeometryReader { geometry in
+                        let offset = geometry.frame(in: .global).minY
 
-                        headingView()
-                        actionsView()
-                        movieContentView()
+                        // Store the scroll offset
+                        Color.clear
+                            .preference(key: ScrollOffsetPreferenceKey.self, value: offset)
+                            .frame(height: 0)
+
+                        // Dynamic header image
+                        dynamicHeaderImage(offset: offset)
                     }
+                    .frame(height: calculateImageHeight())
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        if viewModel.isLoading {
+                            // Add progressView with white
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .foregroundStyle(.white)
+                                .padding()
+                                .alignmentGuide(.top) { _ in
+                                    return 0
+                                }
+                        } else {
+                            if let errorMessage = viewModel.errorMessage {
+                                ErrorMessageView(message: errorMessage)
+                            }
+
+                            titleView()
+                            actionsView()
+                            movieContentView()
+                        }
+                    }
+                    .padding()
                 }
-                .padding()
-            }
+            }.scrollIndicators(.hidden)
         }
         .onAppear {
             viewModel.fetchMovieDetails(for: mediaItem.id)
         }
     }
 
+    private func calculateImageHeight() -> CGFloat {
+        // Calculate image height based on scroll position
+        if scrollOffset > 0 {
+            // Stretching when pulled down (with limit)
+            return min(defaultImageHeight + scrollOffset, defaultImageHeight * maxStretchFactor)
+        } else {
+            // Shrinking when scrolling up (with minimum)
+            return max(defaultImageHeight + scrollOffset, minImageHeight)
+        }
+    }
+
     @ViewBuilder
-    fileprivate func headingView() -> some View {
-        AsyncImage(url: URL(string: Constant.backdropURL + (viewModel.movieDetails?.backdropPath ?? ""))) { phase in
-            switch phase {
-                case .empty:
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .foregroundColor(.white)
-                        .tint(.white)
-                case .success(let image):
-                    image
-                        .resizable(capInsets: EdgeInsets(), resizingMode: .stretch)
-                        .scaledToFill()
-                        .clipped()
-                case .failure:
-                    Image(systemName: "photo")
-                        .resizable()
-                        .scaledToFit()
-                @unknown default:
-                    EmptyView()
+    private func dynamicHeaderImage(offset: CGFloat) -> some View {
+        GeometryReader { imageGeometry in
+            @State var isImageLoaded: Bool = false
+
+            AsyncImage(url: URL(string: Constant.backdropURL + (viewModel.movieDetails?.backdropPath ?? ""))) { phase in
+                switch phase {
+                    case .empty:
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .foregroundColor(.white)
+                            .tint(.white)
+                            .frame(width: imageGeometry.size.width,
+                                   height: imageGeometry.size.width,  alignment: .center)
+                    case .success(let image):
+                        image
+                            .resizable(resizingMode: .stretch)
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: imageGeometry.size.width,
+                                   height: imageGeometry.size.width,
+                                   alignment: .center)
+                            .scaleEffect(x: 1 + max(0, offset / calculateImageHeight()),
+                                         y: 1 + max(0, offset / calculateImageHeight()),
+                                         anchor: .top)
+                            .offset(y: offset > 0 ? -offset / 2 : 0) // Parallax effect when scrolling
+                            .clipped()
+                            .opacity(isImageLoaded ? 1: 0)
+                            .onAppear {
+                                withAnimation(.easeIn(duration: 0.5)) {
+                                    isImageLoaded = true
+                                }
+                            }
+
+                    case .failure:
+                        Text("Image unavailable")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(width: imageGeometry.size.width, height:
+                                    imageGeometry.size.width,
+                                   alignment: .center)
+                    @unknown default:
+                        EmptyView()
+                }
             }
         }
+    }
 
+    @ViewBuilder
+    fileprivate func titleView() -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(viewModel.movieDetails?.title ?? mediaItem.title)
                 .font(.largeTitle)
@@ -162,6 +222,15 @@ struct MovieDetailsView<ViewModel: MovieDetailsViewModelProtocol>: View {
                 .cornerRadius(5)
             }
         }
+    }
+}
+
+// Define a preference key to track scroll offset
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
 
