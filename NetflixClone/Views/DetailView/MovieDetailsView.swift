@@ -85,7 +85,6 @@ struct MovieDetailsView<ViewModel: MovieDetailsViewModelProtocol>: View {
     @ViewBuilder
     private func dynamicHeaderImage(offset: CGFloat) -> some View {
         GeometryReader { imageGeometry in
-            @State var isImageLoaded: Bool = false
 
             AsyncImage(url: URL(string: Constant.backdropURL + (viewModel.movieDetails?.backdropPath ?? ""))) { phase in
                 switch phase {
@@ -101,19 +100,13 @@ struct MovieDetailsView<ViewModel: MovieDetailsViewModelProtocol>: View {
                             .resizable(resizingMode: .stretch)
                             .aspectRatio(contentMode: .fill)
                             .frame(width: imageGeometry.size.width,
-                                   height: imageGeometry.size.width,
+                                   height: imageGeometry.size.height,
                                    alignment: .center)
                             .scaleEffect(x: 1 + max(0, offset / calculateImageHeight()),
                                          y: 1 + max(0, offset / calculateImageHeight()),
                                          anchor: .top)
                             .offset(y: offset > 0 ? -offset / 2 : 0) // Parallax effect when scrolling
                             .clipped()
-                            .opacity(isImageLoaded ? 1: 0)
-                            .onAppear {
-                                withAnimation(.easeIn(duration: 0.5)) {
-                                    isImageLoaded = true
-                                }
-                            }
 
                     case .failure:
                         Text("Image unavailable")
