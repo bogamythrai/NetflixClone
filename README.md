@@ -1,6 +1,12 @@
 # NetflixClone
 A Netflix-style streaming app built using SwiftUI, designed to showcase modern iOS UI, clean architecture, and dynamic content playback.
 
+|Home screen|Details|Home 2|
+|--|--|--|
+|![Simulator Screenshot - iPhone 16 Pro - 2025-06-23 at 19 34 04](https://github.com/user-attachments/assets/554006b1-5467-4435-a156-d5f5889e48e3)|![Simulator Screenshot - iPhone 16 Pro - 2025-06-23 at 19 34 50](https://github.com/user-attachments/assets/408c8e6b-45ee-4ee7-a1e3-0e1eb6c1b359)|![Simulator Screenshot - iPhone 16 Pro - 2025-06-23 at 19 35 02](https://github.com/user-attachments/assets/5ae9e8df-dad8-4878-a102-cd883e5ff797)|
+
+
+
 ### ✅ Features
 🏠 Home Screen
 - Displays trending and popular shows in scrollable carousels.
